@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Login</h1>
+  <form [formGroup]="form" (ngSubmit)="checkUserAndLogin(form.controls['email'].value, form.controls['password'].value)">
+    <div class="form-group">
+      <input type="email" id="user-email" placeholder="Your Email" formControlName="email" (keyup)="checkUsernameError(this.form.controls['email'])">
+      <div class="form-control-message" *ngIf="form.controls['email'].status === 'INVALID'" >
+        <p>{{ form.controls['email'].textError }}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" id="user-password" placeholder="Your Password " formControlName="password" (keyup)="checkUsernameError(this.form.controls['password'])">
+      <div class="form-control-message" *ngIf="form.controls['password'].status === 'INVALID'" >
+        <p>{{ form.controls['password'].textError }}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="button" [disabled]="setFormSubmitDisabledStatus(form)">Submit</button>
+      <div *ngIf="loggedIn" class="message-logged-in" [ngClass]="(loggedStatus == 'success') ? 'success' : 'failure'">
+        <p>{{loggedStatus}}</p>
+      </div>
+    </div>
+  </form>
+</div>

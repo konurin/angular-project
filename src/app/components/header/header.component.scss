@@ -1,0 +1,45 @@
+.header {
+  background: #37474f;
+  padding: 15px 0;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .logotype {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 1.5rem;
+      outline: none!important;
+      span {
+        color: #01ead5;
+      }
+    }
+    .navigation {
+      ul {
+        display: flex;
+        align-items: center;
+        li {
+          a {
+            margin-left: 20px;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.04em;
+            -webkit-transition: color 0.3s;
+            -moz-transition: color 0.3s;
+            -ms-transition: color 0.3s;
+            -o-transition: color 0.3s;
+            transition: color 0.3s;
+            font-weight: 500;
+            &:hover, &.active-link {
+              color: #01ead5;
+            }
+          }
+        }
+      }
+    }
+  }
+}
