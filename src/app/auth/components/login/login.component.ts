@@ -1,12 +1,9 @@
-import {Component, DoCheck } from '@angular/core';
-import {FormControl, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from "../../shared/models/user";
-
-export const USERS: User[] = [
-  {email: "vk@unicsoft.net", password: "1qwerty"},
-  {email: "anton", password: "2qwerty"},
-  {email: "ivan", password: "3qwerty"},
-];
+import {AuthenticationService} from "../../services/auth.service";
+import {Router} from "@angular/router";
+import {AuthGuard} from "../../../dashboard/services/guard.service";
 
 @Component({
   selector: 'app-login',
@@ -14,9 +11,7 @@ export const USERS: User[] = [
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements DoCheck {
-  users = USERS;
-  fieldError: string;
+export class LoginComponent implements OnInit {
   loggedIn = false;
   loggedStatus: string;
 
@@ -34,7 +29,7 @@ export class LoginComponent implements DoCheck {
     ]))
   });
 
-  checkUsernameError(field: any) :void {
+  checkUsernameError(field: any): void {
     field.textError = "";
     if (field.hasError("required")) {
       field.textError = "This field required";
@@ -47,7 +42,7 @@ export class LoginComponent implements DoCheck {
     }
   }
 
-  setFormSubmitDisabledStatus(form:any):boolean {
+  setFormSubmitDisabledStatus(form: any): boolean {
     if (form.status === "VALID") {
       return false;
     } else {
@@ -55,24 +50,41 @@ export class LoginComponent implements DoCheck {
     }
   }
 
-  checkUserAndLogin(email, password):void {
+  checkUserAndLogin(email, password): void {
     if (this.form.status === "VALID") {
       this.loggedIn = true;
-      console.log("email: " + email);
-      console.log("password: " + password);
 
-      if (this.users.find(user => user.email === email) && this.users.find(user => user.password === password)) {
-        this.loggedStatus = "success";
-      } else {
-        this.loggedStatus = "failure";
-      }
+      this.authenticationService.login(email, password)
+        .subscribe(
+          result => {
+            console.log(result);
+            if (result === true) {
+              this.router.navigate(['/dashboard']);
+            }
+          }, err => {
+            let errCode = err.error.code;
+            if (errCode.indexOf('incorrect_email')) {
+              this.loggedStatus = "Incorrect Email";
+            }
+          }
+        );
     }
   }
 
-  constructor() { }
-
-  ngDoCheck() {
-
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private AuthGuard: AuthGuard
+  ){
   }
+
+  ngOnInit() {
+    if (!this.AuthGuard.canActivate()) {
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+
 
 }

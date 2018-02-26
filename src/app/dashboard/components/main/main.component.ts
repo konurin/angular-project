@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthGuard} from "../../services/guard.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private AuthGuard: AuthGuard,
+    private router: Router
+  ) {
+  }
 
   ngOnInit() {
+    if (!this.AuthGuard.canActivate()) {
+      this.router.navigate(['/login']);
+    }
   }
 
 }
