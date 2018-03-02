@@ -1,19 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
+import {EventEmitter, Injectable} from '@angular/core';
+import { CanActivate } from '@angular/router';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-
-  constructor(private router: Router) { }
+  authChange: EventEmitter<number> = new EventEmitter();
+  constructor() { }
 
   canActivate() {
-    if (localStorage.getItem('currentUser')) {
-      // logged in so return true
-      return true;
-    }
+    this.authChange.emit(localStorage.getItem('currentUser') ? 1 : 0);
+    return (localStorage.getItem('currentUser') ? true : false);
+  }
 
-    // not logged in so redirect to login page
-    this.router.navigate(['/login']);
-    return false;
+  canActivateReturnNumber() {
+    return this.authChange;
   }
 }

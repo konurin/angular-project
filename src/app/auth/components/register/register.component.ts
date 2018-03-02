@@ -13,9 +13,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.AuthGuard.canActivate()) {
-      this.router.navigate(['/login']);
-    } else {
+    if (this.AuthGuard.canActivate()) {
       this.router.navigate(['/dashboard']);
     }
   }

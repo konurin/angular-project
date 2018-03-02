@@ -15,7 +15,7 @@ export class AuthenticationService {
 
   login(username: string, password: string): Observable<boolean> {
     return this.http.post(
-      'yoursite/wp-json/jwt-auth/v1/token',
+      'http://nevo.solutions/wp-json/jwt-auth/v1/token',
       {username: username, password: password}
       ).map((response: Response) => {
         let token: string;

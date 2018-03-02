@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from "../../shared/models/user";
 import {AuthenticationService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {AuthGuard} from "../../../dashboard/services/guard.service";
@@ -52,7 +51,6 @@ export class LoginComponent implements OnInit {
 
   checkUserAndLogin(email, password): void {
     if (this.form.status === "VALID") {
-      this.loggedIn = true;
 
       this.authenticationService.login(email, password)
         .subscribe(
@@ -79,9 +77,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.AuthGuard.canActivate()) {
-      this.router.navigate(['/login']);
-    } else {
+    if (this.AuthGuard.canActivate()) {
       this.router.navigate(['/dashboard']);
     }
   }
