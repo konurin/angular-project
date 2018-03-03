@@ -2,22 +2,24 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {PageComponent} from './components/page/page.component';
-import {HeaderComponent} from './components/header/header.component';
-import {FooterComponent} from './components/footer/footer.component';
-import {HomeComponent} from './components/home/home.component';
+import {HeaderComponent} from './static/header/header.component';
+import {FooterComponent} from './static/footer/footer.component';
+import {HomeComponent} from './static/home/home.component';
 import {AppRoutingModule} from "./app.routing";
 import {AuthModule} from "./auth/auth.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
-
+import {PostsComponent} from './posts/posts.component';
+import {PostComponent} from './posts/post/post.component';
+import {PostsService} from "./posts/services/posts.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    PostsComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,7 @@ import {DashboardModule} from "./dashboard/dashboard.module";
     AuthModule,
     DashboardModule
   ],
-  providers: [],
+  providers: [PostsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
